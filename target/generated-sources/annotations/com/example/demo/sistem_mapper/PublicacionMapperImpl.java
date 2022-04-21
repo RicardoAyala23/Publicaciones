@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-04-21T10:48:22-0500",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.2 (Oracle Corporation)"
+    date = "2022-04-21T11:08:09-0500",
+    comments = "version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 1.4.100.v20220318-0906, environment: Java 17.0.2 (Eclipse Adoptium)"
 )
 @Component
 public class PublicacionMapperImpl implements PublicacionMapper {
@@ -25,10 +25,10 @@ public class PublicacionMapperImpl implements PublicacionMapper {
 
         PublicacionEntity publicacionEntity = new PublicacionEntity();
 
+        publicacionEntity.setContenido( publicacionRequest.getContenido() );
+        publicacionEntity.setDescripcion( publicacionRequest.getDescripcion() );
         publicacionEntity.setId( publicacionRequest.getId() );
         publicacionEntity.setTitulo( publicacionRequest.getTitulo() );
-        publicacionEntity.setDescripcion( publicacionRequest.getDescripcion() );
-        publicacionEntity.setContenido( publicacionRequest.getContenido() );
 
         return publicacionEntity;
     }
@@ -41,10 +41,10 @@ public class PublicacionMapperImpl implements PublicacionMapper {
 
         PublicacionResonse publicacionResonse = new PublicacionResonse();
 
+        publicacionResonse.setContenido( publicacionOpcional.getContenido() );
+        publicacionResonse.setDescripcion( publicacionOpcional.getDescripcion() );
         publicacionResonse.setId( publicacionOpcional.getId() );
         publicacionResonse.setTitulo( publicacionOpcional.getTitulo() );
-        publicacionResonse.setDescripcion( publicacionOpcional.getDescripcion() );
-        publicacionResonse.setContenido( publicacionOpcional.getContenido() );
 
         return publicacionResonse;
     }
