@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-04-21T10:13:04-0500",
-    comments = "version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 1.4.100.v20220318-0906, environment: Java 17.0.2 (Eclipse Adoptium)"
+    date = "2022-04-21T10:48:23-0500",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.2 (Oracle Corporation)"
 )
 @Component
 public class ComentarioMapperImpl implements ComentarioMapper {
@@ -24,10 +24,10 @@ public class ComentarioMapperImpl implements ComentarioMapper {
 
         ComentarioEntity comentarioEntity = new ComentarioEntity();
 
-        comentarioEntity.setCuerpo( comentarioRequest.getCuerpo() );
-        comentarioEntity.setEmail( comentarioRequest.getEmail() );
         comentarioEntity.setId( comentarioRequest.getId() );
         comentarioEntity.setNombre( comentarioRequest.getNombre() );
+        comentarioEntity.setEmail( comentarioRequest.getEmail() );
+        comentarioEntity.setCuerpo( comentarioRequest.getCuerpo() );
 
         return comentarioEntity;
     }
@@ -53,10 +53,10 @@ public class ComentarioMapperImpl implements ComentarioMapper {
 
         ComentarioResponse comentarioResponse = new ComentarioResponse();
 
-        comentarioResponse.setCuerpo( comentarioEntity.getCuerpo() );
-        comentarioResponse.setEmail( comentarioEntity.getEmail() );
         comentarioResponse.setId( comentarioEntity.getId() );
         comentarioResponse.setNombre( comentarioEntity.getNombre() );
+        comentarioResponse.setEmail( comentarioEntity.getEmail() );
+        comentarioResponse.setCuerpo( comentarioEntity.getCuerpo() );
 
         return comentarioResponse;
     }
