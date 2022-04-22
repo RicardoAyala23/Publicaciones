@@ -22,7 +22,7 @@ public class ResouceNotFoundException extends RuntimeException {
     private Long valorDelCampo;
 
     public ResouceNotFoundException(String message, String nombreRecurso, String nombreDelCampo, Long valorDelCampo) {
-        super(String.format("%s No encontro con  : %s : '%s'", nombreRecurso, nombreDelCampo, valorDelCampo));
+        super(String.format("%s No encontontrada con  : %s : '%s'", nombreRecurso, nombreDelCampo, valorDelCampo));
         this.nombreRecurso = nombreRecurso;
         this.nombreDelCampo = nombreDelCampo;
         this.valorDelCampo = valorDelCampo;

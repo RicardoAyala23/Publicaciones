@@ -1,10 +1,14 @@
 package com.example.demo.sistem_controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.comunes.OperadorDeConsultas;
+import com.example.demo.filtros.Filtro;
 import com.example.demo.sistem_request.PublicacionRequest;
 import com.example.demo.sistem_response.PublicacionResonse;
 import com.example.demo.sistem_response.PublicacionResponseAtributos;
+import com.example.demo.sistem_response.PublicacionResponseConComentarios;
 import com.example.demo.sistem_response.PublicacionResponseCreate;
 import com.example.demo.sistema_service.PublicacionService;
 import com.example.demo.sistema_utilery.AppConstantes;
@@ -121,6 +125,92 @@ public class PublicacionController {
         ResponseEntity<PublicacionResponseAtributos> result = null;
 
         result = new ResponseEntity<>(publicacionResponseAtributos, HttpStatus.OK);
+
+        return result;
+
+    }
+
+    @GetMapping("/recuperarPorFiltros")
+    public ResponseEntity<PublicacionResponseAtributos> recuperarPorFiltros(
+            @RequestParam(value = "titulo", required = false) String titulo,
+            @RequestParam(value = "descripcion", required = false) String descripcion,
+            @RequestParam(value = "contenido", required = false) String contenido,
+            @RequestParam(value = "pagina", defaultValue = AppConstantes.NUMERO_DE_PAGINA_POR_DEFECTO, required = false) int page,
+            @RequestParam(value = "size", defaultValue = AppConstantes.MEDIDA_DE_PAGINA_POR_DEFECTO, required = false) int size,
+            @RequestParam(value = "sortBy", defaultValue = AppConstantes.ORDENAR_POR_DEFECTO, required = false) String columna,
+            @RequestParam(value = "sortDir", defaultValue = AppConstantes.ORDENAR_DIRECCION_POR_DEFECTO, required = false) String sortDir) {
+
+        List<Filtro> filtros = new ArrayList<>();
+
+        if (titulo != null && !titulo.isEmpty()) {
+
+            Filtro filtroTitulo = Filtro.builder().campo("titulo").operador(OperadorDeConsultas.LIKE).valor(titulo)
+                    .build();
+            filtros.add(filtroTitulo);
+
+        }
+
+        if (descripcion != null && !descripcion.isEmpty()) {
+
+            Filtro filtroDescripcion = Filtro.builder().campo("descripcion").operador(OperadorDeConsultas.LIKE)
+                    .valor(descripcion).build();
+            filtros.add(filtroDescripcion);
+        }
+
+        if (contenido != null && !contenido.isEmpty()) {
+
+            Filtro filtroContenido = Filtro.builder().campo("contenido").operador(OperadorDeConsultas.LIKE)
+                    .valor(contenido).build();
+            filtros.add(filtroContenido);
+
+        }
+
+        if (page < 1) {
+
+            page = 1;
+        }
+
+        PublicacionResponseAtributos publicacionResonses = null;
+
+        if (filtros.isEmpty()) {
+
+            // Si la lista esta vacia aplicamos el de traer toda la lista
+
+            publicacionResonses = publicacionService.obtenerTodasLasPublicacionesConPaginacion(page, size, columna,
+                    sortDir);
+
+        } else {
+
+            publicacionResonses = publicacionService.recuperarPublicacionesPorFiltros(filtros, page, size,
+                    columna,
+                    sortDir);
+
+        }
+
+        ResponseEntity<PublicacionResponseAtributos> result = null;
+
+        result = new ResponseEntity<>(publicacionResonses, HttpStatus.OK);
+
+        return result;
+    }
+
+    @GetMapping("/obtenerPublicacionesConPaginacionYcomentarios")
+    public ResponseEntity<PublicacionResponseConComentarios> obtenerPublicacionesConPaginacionYcomentarios(
+            @RequestParam(value = "pagina", defaultValue = AppConstantes.NUMERO_DE_PAGINA_POR_DEFECTO, required = false) int page,
+            @RequestParam(value = "size", defaultValue = AppConstantes.MEDIDA_DE_PAGINA_POR_DEFECTO, required = false) int size,
+            @RequestParam(value = "sortBy", defaultValue = AppConstantes.ORDENAR_POR_DEFECTO, required = false) String columna,
+            @RequestParam(value = "sortDir", defaultValue = AppConstantes.ORDENAR_DIRECCION_POR_DEFECTO, required = false) String sortDir) {
+
+        if (page < 1) {
+            page = 1;
+        }
+
+        PublicacionResponseConComentarios publicacionResponseConComentarios = publicacionService
+                .obtenerTodasLasPublicacionesConPaginacionYcomentarios(page, size, columna, sortDir);
+
+        ResponseEntity<PublicacionResponseConComentarios> result = null;
+
+        result = new ResponseEntity<>(publicacionResponseConComentarios, HttpStatus.OK);
 
         return result;
 

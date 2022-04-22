@@ -3,10 +3,13 @@ package com.example.demo.sistema_service;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.especificaciones.Especificaciones;
 import com.example.demo.exceptions.ResouceNotFoundException;
+import com.example.demo.filtros.Filtro;
 import com.example.demo.sistem_mapper.PublicacionMapper;
 import com.example.demo.sistem_model.PublicacionEntity;
 import com.example.demo.sistem_request.PublicacionRequest;
+import com.example.demo.sistem_response.PublicacionResponseConComentarios;
 import com.example.demo.sistem_response.PublicacionResonse;
 import com.example.demo.sistem_response.PublicacionResponseAtributos;
 import com.example.demo.sistem_response.PublicacionResponseCreate;
@@ -27,6 +30,12 @@ public class PublicacionServiceImpl implements PublicacionService {
 
     @Autowired
     private PublicacionMapper publicacionMapper;
+
+    @Autowired
+    private Especificaciones especificaciones;
+
+    @Autowired
+    private ComentarioServicio comentarioServicio;
 
     @Override
     public PublicacionResponseCreate crearPublicacion(PublicacionRequest publicacionRequest) {
@@ -129,7 +138,7 @@ public class PublicacionServiceImpl implements PublicacionService {
                 break;
         }
 
-        Pageable pageable = PageRequest.of(page - 1, size,sort);
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
 
         Page<PublicacionEntity> publicacionEntities = publicacionRepository.findAll(pageable);
 
@@ -146,6 +155,91 @@ public class PublicacionServiceImpl implements PublicacionService {
         publicacionResponseAtributos.setUltima(publicacionEntities.isLast());
 
         return publicacionResponseAtributos;
+    }
+
+    @Override
+    public PublicacionResponseAtributos recuperarPublicacionesPorFiltros(List<Filtro> filtro,
+            int page, int size,
+            String columna, String sortDir) {
+
+        Sort sorOrder = null;
+
+        sorOrder = Sort.by(columna);
+
+        switch (sortDir) {
+            case "ASC":
+                sorOrder = sorOrder.ascending();
+                break;
+            case "DESC":
+                sorOrder = sorOrder.descending();
+                break;
+            default:
+                sorOrder = sorOrder.descending();
+                break;
+        }
+
+        Pageable pageable = PageRequest.of(page - 1, size, sorOrder);
+
+        Page<PublicacionEntity> publicacionEntityPage = publicacionRepository
+                .findAll(especificaciones.obtenerEspecificacionesPorFiltros(filtro), pageable);
+
+        List<PublicacionEntity> publicacionEntityList = publicacionEntityPage.getContent();
+
+        List<PublicacionResonse> publicacionResonses = null;
+
+        publicacionResonses = publicacionMapper.publicacionesEntitiesToPublicacionesResponses(publicacionEntityList);
+
+        PublicacionResponseAtributos publicacionResponseAtributos = new PublicacionResponseAtributos();
+
+        publicacionResponseAtributos.setContenido(publicacionResonses);
+
+        publicacionResponseAtributos.setNumeroPagina(publicacionEntityPage.getNumber() + 1);
+        publicacionResponseAtributos.setMedidaPagina(publicacionEntityPage.getSize());
+        publicacionResponseAtributos.setTotalElementos(publicacionEntityPage.getTotalElements());
+        publicacionResponseAtributos.setTotalPaginas(publicacionEntityPage.getTotalPages());
+        publicacionResponseAtributos.setUltima(publicacionEntityPage.isLast());
+
+        return publicacionResponseAtributos;
+    }
+
+    @Override
+    public PublicacionResponseConComentarios obtenerTodasLasPublicacionesConPaginacionYcomentarios(int page, int size,
+            String columna, String sortDir) {
+
+        Sort sort = null;
+
+        sort = Sort.by(columna);
+
+        switch (sortDir) {
+
+            case "ASC":
+                sort = sort.ascending();
+                break;
+            case "DESC":
+
+                sort = sort.descending();
+
+                break;
+        }
+
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+
+        Page<PublicacionEntity> publicacionEntities = publicacionRepository.findAll(pageable);
+
+        List<PublicacionResonse> publicacionResonses = publicacionMapper
+                .publicacionesEntitiesToPublicacionesResponses(publicacionEntities);
+
+        PublicacionResponseConComentarios publicacionConComentarios = new PublicacionResponseConComentarios();
+
+        for (PublicacionResonse entrada : publicacionResonses) {
+
+            publicacionConComentarios.setPublicacionResonses(publicacionResonses);
+
+            publicacionConComentarios
+                    .setComentarioResponse(comentarioServicio.obtenerComentariosPorPublicacionId(entrada.getId()));
+        }
+
+        return publicacionConComentarios;
     }
 
 }

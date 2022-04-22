@@ -11,4 +11,11 @@ public interface ComentarioServicio {
     public ComentarioResponseCreate crearComentario(Long publicacionId,ComentarioRequest comentarioRequest);
 
     public List<ComentarioResponse> obtenerComentariosPorPublicacionId(Long publicacionId);
+
+    public ComentarioResponse obtenerComentarioPorId(Long publicacionId,Long comentarioId);
+
+    public ComentarioResponse actualizarComentario(Long publicacionId,Long comentarioId,ComentarioRequest comentarioRequest);
+
+    public Boolean borrarComentario(Long publicacionId,Long comentarioId);
+
 }
