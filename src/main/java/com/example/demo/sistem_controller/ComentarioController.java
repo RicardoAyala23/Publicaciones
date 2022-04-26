@@ -2,6 +2,8 @@ package com.example.demo.sistem_controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.example.demo.sistem_request.ComentarioRequest;
 import com.example.demo.sistem_response.ComentarioResponse;
 import com.example.demo.sistem_response.ComentarioResponseCreate;
@@ -28,7 +30,7 @@ public class ComentarioController {
 
     @PostMapping(path = "/publicaciones/comentario")
     public ResponseEntity<ComentarioResponseCreate> guardarComentario(
-            @RequestParam("publicacion_id") Long publicacionId, @RequestBody ComentarioRequest comentarioRequest) {
+            @RequestParam("publicacion_id") Long publicacionId,@Valid @RequestBody ComentarioRequest comentarioRequest) {
 
         ComentarioResponseCreate comentarioResponseCreate = comentarioService.crearComentario(publicacionId,
                 comentarioRequest);
@@ -70,7 +72,7 @@ public class ComentarioController {
     @PutMapping("/actualizarComentarioPorId/{publicacionId}/{comentarioId}")
     public ResponseEntity<ComentarioResponse> actualizarComentarioPorId(
             @RequestParam("publicacionId") Long publicacionId, @RequestParam("comentarioId") Long comentarioId,
-            @RequestBody ComentarioRequest comentarioRequest) {
+            @Valid @RequestBody ComentarioRequest comentarioRequest) {
 
         ComentarioResponse comentarioResponse = comentarioService.actualizarComentario(publicacionId, comentarioId,
                 comentarioRequest);

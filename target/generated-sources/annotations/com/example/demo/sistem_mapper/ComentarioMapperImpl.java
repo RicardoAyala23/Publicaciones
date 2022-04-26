@@ -5,13 +5,13 @@ import com.example.demo.sistem_request.ComentarioRequest;
 import com.example.demo.sistem_response.ComentarioResponse;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.processing.Generated;
+import javax.annotation.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-04-22T09:56:47-0500",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.2 (Oracle Corporation)"
+    date = "2022-04-25T19:14:01-0500",
+    comments = "version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 1.4.100.v20220318-0906, environment: Java 17.0.2 (Eclipse Adoptium)"
 )
 @Component
 public class ComentarioMapperImpl implements ComentarioMapper {
@@ -24,9 +24,9 @@ public class ComentarioMapperImpl implements ComentarioMapper {
 
         ComentarioEntity comentarioEntity = new ComentarioEntity();
 
-        comentarioEntity.setNombre( comentarioRequest.getNombre() );
-        comentarioEntity.setEmail( comentarioRequest.getEmail() );
         comentarioEntity.setCuerpo( comentarioRequest.getCuerpo() );
+        comentarioEntity.setEmail( comentarioRequest.getEmail() );
+        comentarioEntity.setNombre( comentarioRequest.getNombre() );
 
         return comentarioEntity;
     }
@@ -53,10 +53,10 @@ public class ComentarioMapperImpl implements ComentarioMapper {
 
         ComentarioResponse comentarioResponse = new ComentarioResponse();
 
+        comentarioResponse.setCuerpo( comentarioEntity.getCuerpo() );
+        comentarioResponse.setEmail( comentarioEntity.getEmail() );
         comentarioResponse.setId( comentarioEntity.getId() );
         comentarioResponse.setNombre( comentarioEntity.getNombre() );
-        comentarioResponse.setEmail( comentarioEntity.getEmail() );
-        comentarioResponse.setCuerpo( comentarioEntity.getCuerpo() );
 
         return comentarioResponse;
     }

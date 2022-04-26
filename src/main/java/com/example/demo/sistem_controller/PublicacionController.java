@@ -3,6 +3,8 @@ package com.example.demo.sistem_controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.example.demo.comunes.OperadorDeConsultas;
 import com.example.demo.filtros.Filtro;
 import com.example.demo.sistem_request.PublicacionRequest;
@@ -16,6 +18,7 @@ import com.example.demo.sistema_utilery.AppConstantes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,9 +36,10 @@ public class PublicacionController {
     @Autowired
     PublicacionService publicacionService;
 
-    @PostMapping("/agregarProductos")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(path = "/agregarProductos")
     public ResponseEntity<PublicacionResponseCreate> agregarProductos(
-            @RequestBody PublicacionRequest publicacionRequest) {
+            @RequestBody @Valid PublicacionRequest publicacionRequest) {
 
         PublicacionResponseCreate publicacionResponseCreate = publicacionService.crearPublicacion(publicacionRequest);
 
@@ -46,6 +50,7 @@ public class PublicacionController {
         return result;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(path = "/actualizarPublicacion/{id}")
     public ResponseEntity<PublicacionResonse> actualizarPublicacion(@RequestBody PublicacionRequest publicacionRequest,
             @PathVariable("id") Long id) {
@@ -60,6 +65,7 @@ public class PublicacionController {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(path = "/borrarPublicacion/{id}")
     public ResponseEntity<String> borrarPublicacion(@RequestParam("{id}") Long id) {
 
@@ -84,7 +90,7 @@ public class PublicacionController {
 
     }
 
-    @GetMapping("/mostrarPublicaciones")
+    @GetMapping(path = "/mostrarPublicaciones")
     public ResponseEntity<List<PublicacionResonse>> mostrarPublicaciones() {
 
         List<PublicacionResonse> publicacionResonses = publicacionService.obtenerTodasLasPublicaciones();
@@ -109,7 +115,7 @@ public class PublicacionController {
 
     }
 
-    @GetMapping("/obtenerPublicacionesConPaginacion")
+    @GetMapping(path = "/obtenerPublicacionesConPaginacion")
     public ResponseEntity<PublicacionResponseAtributos> obtenerPublicacionesConPaginacion(
             @RequestParam(value = "pagina", defaultValue = AppConstantes.NUMERO_DE_PAGINA_POR_DEFECTO, required = false) int page,
             @RequestParam(value = "size", defaultValue = AppConstantes.MEDIDA_DE_PAGINA_POR_DEFECTO, required = false) int size,
@@ -130,7 +136,7 @@ public class PublicacionController {
 
     }
 
-    @GetMapping("/recuperarPorFiltros")
+    @GetMapping(path = "/recuperarPorFiltros")
     public ResponseEntity<PublicacionResponseAtributos> recuperarPorFiltros(
             @RequestParam(value = "titulo", required = false) String titulo,
             @RequestParam(value = "descripcion", required = false) String descripcion,
@@ -194,7 +200,7 @@ public class PublicacionController {
         return result;
     }
 
-    @GetMapping("/obtenerPublicacionesConPaginacionYcomentarios")
+    @GetMapping(path = "/obtenerPublicacionesConPaginacionYcomentarios")
     public ResponseEntity<PublicacionResponseConComentarios> obtenerPublicacionesConPaginacionYcomentarios(
             @RequestParam(value = "pagina", defaultValue = AppConstantes.NUMERO_DE_PAGINA_POR_DEFECTO, required = false) int page,
             @RequestParam(value = "size", defaultValue = AppConstantes.MEDIDA_DE_PAGINA_POR_DEFECTO, required = false) int size,

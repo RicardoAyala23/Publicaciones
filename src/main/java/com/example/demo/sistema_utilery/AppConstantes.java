@@ -9,7 +9,7 @@ public class AppConstantes {
 
     public static final String ORDENAR_POR_DEFECTO = "id";
 
-    public static final String ORDENAR_DIRECCION_POR_DEFECTO = "DESC";
+    public static final String ORDENAR_DIRECCION_POR_DEFECTO = "ASC";
 
     public static final String ERRCODE_NAME_NULL = "El campo nombre no puede estar vacio";
     public static final String ERRCODE_EMAIL_INVALID = "El campo email es formato invalido";

@@ -5,14 +5,14 @@ import com.example.demo.sistem_request.PublicacionRequest;
 import com.example.demo.sistem_response.PublicacionResonse;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.processing.Generated;
+import javax.annotation.Generated;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-04-22T09:56:47-0500",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.2 (Oracle Corporation)"
+    date = "2022-04-25T19:14:01-0500",
+    comments = "version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 1.4.100.v20220318-0906, environment: Java 17.0.2 (Eclipse Adoptium)"
 )
 @Component
 public class PublicacionMapperImpl implements PublicacionMapper {
@@ -25,9 +25,9 @@ public class PublicacionMapperImpl implements PublicacionMapper {
 
         PublicacionEntity publicacionEntity = new PublicacionEntity();
 
-        publicacionEntity.setTitulo( publicacionRequest.getTitulo() );
-        publicacionEntity.setDescripcion( publicacionRequest.getDescripcion() );
         publicacionEntity.setContenido( publicacionRequest.getContenido() );
+        publicacionEntity.setDescripcion( publicacionRequest.getDescripcion() );
+        publicacionEntity.setTitulo( publicacionRequest.getTitulo() );
 
         return publicacionEntity;
     }
@@ -40,10 +40,10 @@ public class PublicacionMapperImpl implements PublicacionMapper {
 
         PublicacionResonse publicacionResonse = new PublicacionResonse();
 
+        publicacionResonse.setContenido( publicacionOpcional.getContenido() );
+        publicacionResonse.setDescripcion( publicacionOpcional.getDescripcion() );
         publicacionResonse.setId( publicacionOpcional.getId() );
         publicacionResonse.setTitulo( publicacionOpcional.getTitulo() );
-        publicacionResonse.setDescripcion( publicacionOpcional.getDescripcion() );
-        publicacionResonse.setContenido( publicacionOpcional.getContenido() );
 
         return publicacionResonse;
     }

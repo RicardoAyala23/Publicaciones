@@ -1,8 +1,9 @@
 package com.example.demo.sistem_request;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
-import com.example.demo.sistema_utilery.AppConstantes;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,12 +18,17 @@ public class PublicacionRequest {
     
     private Long id;
 
-    @NotBlank(message = AppConstantes.ERRCODE_NAME_NULL)
+    @NotEmpty
+    @NotBlank
+    @Size(min = 2, message = "El titulo de la publicacion deberia tener al menos 15 caracteres. ")
     private String titulo;
 
-    @NotBlank(message = AppConstantes.ERRCODE_DESCRIPTION_NULL)
+    @NotEmpty
+    @NotBlank
+    @Size(min = 2, message = "La descripcion de la publicacion deberia tener al menos 25 caracteres. ")
     private String descripcion;
 
-    @NotBlank(message = AppConstantes.ERRCODE_CONTENT_NULL)
+    @NotBlank
+    @NotEmpty
     private String contenido;
 }
